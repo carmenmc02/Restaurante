@@ -1,0 +1,10 @@
+{
+  "nombre": "Calle 365",
+  "capacidad": 50,
+  "mesas_max": 5,
+  "menu": {
+    "Sushi": 32,
+    "Sopa": 1,
+    "Sancocho": 7
+  }
+}
