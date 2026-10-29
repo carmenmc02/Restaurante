@@ -78,24 +78,3 @@ def atender_todas_las_mesas(restaurante):
 
 
 
-
-
-if __name__ == "__main__":
-    restaurante = crear_restaurante("Casa Pepe", 50, {'Sopa' : 3, 'Macarrones' : 6, 'Ensalada' : 4}, 2)
-
-    añadir_mesa(restaurante, 3)
-    añadir_mesa(restaurante, 4)
-    print(restaurante)
-
-    tomar_pedido(restaurante['mesas'][0], restaurante['menu'])
-    print(restaurante['mesas'][0])
-
-    calcular_cuenta(restaurante['mesas'][0], restaurante['menu'])
-    print(restaurante['mesas'][0])
-
-    atender_todas_las_mesas(restaurante)
-    print(restaurante)
-
-    for mesa in restaurante['mesas']:
-        print(mesa)
-
