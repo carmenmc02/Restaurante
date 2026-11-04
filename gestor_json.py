@@ -59,3 +59,14 @@ def guardar_menu(ruta, restaurante):
     archivo = open(ruta, "w", encoding="utf-8")
     json.dump(datos, archivo, ensure_ascii=False, indent=4)
     archivo.close()
+
+
+def listar_archivos(carpeta):
+    if not os.path.exists(carpeta):
+        return []
+
+    lista = []
+    for nombre in os.listdir(carpeta):
+        if nombre.endswith(".json"):
+            lista.append(nombre)
+    return lista
