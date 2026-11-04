@@ -1,33 +1,36 @@
 ## ejercicio 1
-def crear_restaurante(nombre, aforo, menu, max_mesas = -1):
+def crear_restaurante(nombre, capacidad, menu, mesas_max = -1):
     restaurante = {
         'nombre' : nombre,
-        'aforo' : aforo,
+        'capacidad' : capacidad,
         'menu' : menu,
         'mesas' : [],
-        'ocupacion' : 0
+        'ocupacion' : 0,
+        'ganancias' : 0,
+        'siguiente_mesa' : 1
     }
 
-    if max_mesas > 0:
-        restaurante['max_mesas'] = max_mesas
+    if mesas_max > 0:
+        restaurante['max_mesas'] = mesas_max
     return restaurante
 
 
 
 ##ejercicio 2
 def insertar_mesa(restaurante, clientes):
-    nueva_mesa = {'num_mesa' : len(restaurante['mesas']) + 1, 'clientes' : clientes, 'atendida' : False}
+    nueva_mesa = {'num_mesa' : restaurante['siguiente_mesa'] + 1, 'clientes' : clientes, 'atendida' : False}
     restaurante['mesas'].append(nueva_mesa)
     restaurante['ocupacion'] += clientes
-
+    restaurante['siguiente_mesa'] += 1
+    print(f"Mesa {nueva_mesa['num_mesa']} asignada a {clientes} clientes.")
 
 def añadir_mesa(restaurante, clientes):
-    if restaurante['ocupacion'] + clientes > restaurante['aforo']:
+    if restaurante['ocupacion'] + clientes > restaurante['capacidad']:
         print('No tenemos suficiente sitio')
         return
 
-    if 'max_mesas' in restaurante:
-        if len(restaurante['mesas']) < restaurante['max_mesas']:
+    if 'mesas_max' in restaurante:
+        if len(restaurante['mesas']) < restaurante['mesas_max']:
             insertar_mesa(restaurante, clientes)
         else:
             print('No caben mas grupos')
