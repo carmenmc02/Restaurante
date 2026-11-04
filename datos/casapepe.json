@@ -1,0 +1,10 @@
+{
+  "nombre": "Casa Pepe",
+  "capacidad": 60,
+  "mesas_max": 8,
+  "menu": {
+    "Callos": 10,
+    "Calamares": 3,
+    "Cocido": 20
+  }
+}
