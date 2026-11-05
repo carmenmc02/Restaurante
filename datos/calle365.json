@@ -6,5 +6,11 @@
     "Sushi": 32,
     "Sopa": 1,
     "Sancocho": 7
-  }
+  },
+  "stock": {
+    "Sushi": 42,
+    "Sopa": 26,
+    "Sancocho": 37
+  },
+  "camareros": ["Alvaro", "Isaac"]
 }
