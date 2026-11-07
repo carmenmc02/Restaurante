@@ -1,3 +1,6 @@
+import os
+from gestor_json import listar_archivos
+
 def mostrar_menu():
     print("\n===== GESTOR DEL RESTAURANTE =====")
     print("1. Cargar restaurante")
@@ -28,3 +31,19 @@ def main():
             print("Pendiente.")
         else:
             print("Opción no válida.")
+
+def elegir_archivo(carpeta):
+    archivos = listar_archivos(carpeta)
+    if len(archivos) == 0:
+        print(f"No hay archivos en la carpeta {carpeta}.")
+        return None
+
+    print("Archivos disponibles:")
+    for i in range(len(archivos)):
+        print(f"  {i + 1}. {archivos[i]}")
+
+    while True:
+        numero = pedir_numero("Elige un número: ")
+        if 1 <= numero <= len(archivos):
+            return os.path.join(carpeta, archivos[numero - 1])
+        print("Ese número no está en la lista.")
