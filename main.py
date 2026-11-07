@@ -1,6 +1,6 @@
 import os
 from gestor_json import listar_archivos, cargar_restaurante, guardar_menu, cargar_grupos
-from restaurante import añadir_mesa
+from restaurante import añadir_mesa, tomar_pedido
 
 def mostrar_menu():
     print("\n===== GESTOR DEL RESTAURANTE =====")
@@ -50,6 +50,40 @@ def cargar_nuevos_grupos(restaurante):
             añadir_mesa(restaurante, grupo["clientes"])
         else:
             print("Hay un grupo sin número de clientes, se ignora.")
+
+def tomar_un_pedido(restaurante):
+    while True:
+        pendientes = []
+        for mesa in restaurante['mesas']:
+            if not mesa['atendida']:
+                pendientes.append(mesa)
+
+        if len(pendientes) == 0:
+            print("No hay mesas esperando pedido.")
+            return
+
+        print("Mesas esperando pedido:")
+        for mesa in pendientes:
+            print(f"  Mesa {mesa['num_mesa']} ({mesa['clientes']} clientes)")
+
+        numero = pedir_numero("¿Qué mesa quieres atender? ")
+        elegida = None
+        for mesa in pendientes:
+            if mesa['num_mesa'] == numero:
+                elegida = mesa
+
+        if elegida is None:
+            print("Esa mesa no está en la lista.")
+        else:
+            print("Escribe los platos. Cuando un cliente termine, escribe: Eso es todo")
+            tomar_pedido(elegida, restaurante['menu'])
+            print(f"Pedido de la mesa {numero} tomado.")
+
+        otra = input("¿Atender otra mesa? (s/n): ").strip().lower()
+        while otra != "s" and otra != "n":
+            otra = input("Responde s o n: ").strip().lower()
+        if otra == "n":
+            return
 
 def main():
     restaurante = None
