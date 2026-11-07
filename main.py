@@ -1,5 +1,5 @@
 import os
-from gestor_json import listar_archivos, cargar_restaurante
+from gestor_json import listar_archivos, cargar_restaurante, guardar_menu
 
 def mostrar_menu():
     print("\n===== GESTOR DEL RESTAURANTE =====")
