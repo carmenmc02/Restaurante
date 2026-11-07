@@ -1,5 +1,6 @@
 import os
-from gestor_json import listar_archivos, cargar_restaurante, guardar_menu
+from gestor_json import listar_archivos, cargar_restaurante, guardar_menu, cargar_grupos
+from restaurante import añadir_mesa
 
 def mostrar_menu():
     print("\n===== GESTOR DEL RESTAURANTE =====")
@@ -19,6 +20,37 @@ def pedir_numero(mensaje):
         except ValueError:
             print("Eso no es un número, prueba nuevamente.")
 
+def elegir_archivo(carpeta):
+    archivos = listar_archivos(carpeta)
+    if len(archivos) == 0:
+        print(f"No hay archivos en la carpeta {carpeta}.")
+        return None
+
+    print("Archivos disponibles:")
+    for i in range(len(archivos)):
+        print(f"  {i + 1}. {archivos[i]}")
+
+    while True:
+        numero = pedir_numero("Elige un número: ")
+        if 1 <= numero <= len(archivos):
+            return os.path.join(carpeta, archivos[numero - 1])
+        print("Ese número no está en la lista.")
+
+def cargar_nuevos_grupos(restaurante):
+    ruta = elegir_archivo("mesas")
+    if ruta is None:
+        return
+
+    grupos = cargar_grupos(ruta)
+    if grupos is None:
+        return
+
+    for grupo in grupos:
+        if "clientes" in grupo:
+            añadir_mesa(restaurante, grupo["clientes"])
+        else:
+            print("Hay un grupo sin número de clientes, se ignora.")
+
 def main():
     restaurante = None
     ruta_restaurante = None
@@ -37,33 +69,22 @@ def main():
                     print(f"Restaurante '{restaurante['nombre']}' cargado.")
 
         elif opcion == "7":
+            if restaurante is not None:
+                guardar_menu(ruta_restaurante, restaurante)
+                print("Menú guardado.")
             print("¡Hasta luego!")
             break
 
         elif opcion in ["2", "3", "4", "5", "6"]:
             if restaurante is None:
                 print("Primero tienes que cargar un restaurante (opción 1).")
+            elif opcion == "2":
+                cargar_nuevos_grupos(restaurante)
             else:
                 print("Pendiente.")
 
         else:
             print("Opción no válida.")
-
-def elegir_archivo(carpeta):
-    archivos = listar_archivos(carpeta)
-    if len(archivos) == 0:
-        print(f"No hay archivos en la carpeta {carpeta}.")
-        return None
-
-    print("Archivos disponibles:")
-    for i in range(len(archivos)):
-        print(f"  {i + 1}. {archivos[i]}")
-
-    while True:
-        numero = pedir_numero("Elige un número: ")
-        if 1 <= numero <= len(archivos):
-            return os.path.join(carpeta, archivos[numero - 1])
-        print("Ese número no está en la lista.")
 
 if __name__ == "__main__":
     main()
