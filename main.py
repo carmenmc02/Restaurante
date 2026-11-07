@@ -80,11 +80,33 @@ def main():
                 print("Primero tienes que cargar un restaurante (opción 1).")
             elif opcion == "2":
                 cargar_nuevos_grupos(restaurante)
+            elif opcion == "6":
+                mostrar_estado(restaurante)
             else:
                 print("Pendiente.")
 
         else:
             print("Opción no válida.")
+
+def mostrar_estado(restaurante):
+    print(f"\n===== ESTADO: {restaurante['nombre']} =====")
+    print(f"Ocupación: {restaurante['ocupacion']} / {restaurante['capacidad']} personas")
+    print(f"Mesas: {len(restaurante['mesas'])} / {restaurante['mesas_max']}")
+    print(f"Ganancias de la noche: {restaurante['ganancias']} €")
+
+    print("\n--- Menú ---")
+    for plato in restaurante['menu']:
+        print(f"  {plato}: {restaurante['menu'][plato]} €")
+
+    print("\n--- Mesas activas ---")
+    if len(restaurante['mesas']) == 0:
+        print("  No hay mesas ocupadas.")
+    for mesa in restaurante['mesas']:
+        if mesa['atendida']:
+            platos = ", ".join(mesa['pedidos'])
+            print(f"  Mesa {mesa['num_mesa']}: {mesa['clientes']} clientes, pedido tomado: {platos}")
+        else:
+            print(f"  Mesa {mesa['num_mesa']}: {mesa['clientes']} clientes, esperando pedido")
 
 if __name__ == "__main__":
     main()
