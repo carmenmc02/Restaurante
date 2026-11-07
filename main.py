@@ -8,6 +8,14 @@ def mostrar_menu():
     print("6. Consultar estado")
     print("7. Salir")
 
+def pedir_numero(mensaje):
+    while True:
+        texto = input(mensaje)
+        try:
+            return int(texto)
+        except ValueError:
+            print("Eso no es un número, prueba nuevamente.")
+
 def main():
     while True:
         mostrar_menu()
