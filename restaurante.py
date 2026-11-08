@@ -11,7 +11,7 @@ def crear_restaurante(nombre, capacidad, menu, mesas_max = -1):
     }
 
     if mesas_max > 0:
-        restaurante['max_mesas'] = mesas_max
+        restaurante['mesas_max'] = mesas_max
     return restaurante
 
 
