@@ -18,7 +18,7 @@ def crear_restaurante(nombre, capacidad, menu, mesas_max = -1):
 
 ##ejercicio 2
 def insertar_mesa(restaurante, clientes):
-    nueva_mesa = {'num_mesa' : restaurante['siguiente_mesa'] + 1, 'clientes' : clientes, 'atendida' : False}
+    nueva_mesa = {'num_mesa' : restaurante['siguiente_mesa'], 'clientes' : clientes, 'atendida' : False}
     restaurante['mesas'].append(nueva_mesa)
     restaurante['ocupacion'] += clientes
     restaurante['siguiente_mesa'] += 1
@@ -37,6 +37,13 @@ def añadir_mesa(restaurante, clientes):
             return
     else:
         insertar_mesa(restaurante, clientes)
+
+
+#### SENTAMOS A LOS GRUPOS
+
+def sentar_grupos(restaurante, grupos):
+    for grupo in grupos:
+        añadir_mesa(restaurante, grupo['clientes'])
 
 
 
@@ -85,6 +92,12 @@ def atender_todas_las_mesas(restaurante):
 
 if __name__ == "__main__":
     restaurante = crear_restaurante("Casa Pepe", 50, {'Sopa' : 3, 'Macarrones' : 6, 'Ensalada' : 4}, 2)
+
+    print(f"\n\n sentar grupos. nueva función")
+    grupos = [{"clientes": 4}, {"clientes": 3}, {"clientes": 2}]
+    sentar_grupos(restaurante, grupos)
+
+    print(restaurante)
 
     añadir_mesa(restaurante, 3)
     añadir_mesa(restaurante, 4)
