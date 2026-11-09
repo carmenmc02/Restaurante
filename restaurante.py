@@ -105,6 +105,36 @@ def atender_todas_las_mesas(restaurante):
             calcular_cuenta(mesa, restaurante['menu'])
 
 
+#### COBRAR Y LIBERAR LAS MESAS
+
+def buscar_mesa(restaurante, num_mesa):
+    for mesa in restaurante['mesas']:
+        if mesa['num_mesa'] == num_mesa:
+            return mesa
+    return None
+
+
+
+def cobrar_mesa(restaurante, num_mesa):
+    mesa = buscar_mesa(restaurante, num_mesa)
+
+    if mesa is None:
+        print(f'No existe la mesa {num_mesa}')
+        return None
+
+    if mesa['atendida'] == False:
+        print(f'La mesa {num_mesa} todavía no ha pedido, no se puede cobrar')
+        return None
+
+    total = calcular_cuenta(mesa, restaurante['menu'])
+    restaurante['ganancias'] += total
+    restaurante['ocupacion'] -= mesa['clientes']
+    restaurante['mesas'].remove(mesa)
+
+    print(f'Mesa {num_mesa} cobrada: {total} €. Ganancias de la noche: {restaurante["ganancias"]} €')
+    return total
+
+
 
 
 
@@ -112,25 +142,58 @@ def atender_todas_las_mesas(restaurante):
 if __name__ == "__main__":
     restaurante = crear_restaurante("Casa Pepe", 50, {'Sopa' : 3, 'Macarrones' : 6, 'Ensalada' : 4}, 2)
 
-    print(f"\n\n sentar grupos. nueva función")
+
+
+    print(f"\n\nSentar grupos. Nuevo")
     grupos = [{"clientes": 4}, {"clientes": 3}, {"clientes": 2}]
     sentar_grupos(restaurante, grupos)
-
     print(restaurante)
 
-    añadir_mesa(restaurante, 3)
-    añadir_mesa(restaurante, 4)
+
+
+
+    print("\n\nMesas pendientes y atendidas. Nuevo")
+    restaurante['mesas'][0]['pedidos'] = ['Sopa', 'Macarrones']
+    restaurante['mesas'][0]['atendida'] = True
+    print("Pendientes:", mesas_pendientes(restaurante))
+    print("Atendidas:", mesas_atendidas(restaurante))
+
+
+
+
+    # añadir_mesa(restaurante, 3)
+    # añadir_mesa(restaurante, 4)
+    # print(restaurante)
+
+
+
+    # tomar_pedido(restaurante['mesas'][0], restaurante['menu'])
+    # print(restaurante['mesas'][0])
+
+
+
+    # calcular_cuenta(restaurante['mesas'][0], restaurante['menu'])
+    # print(restaurante['mesas'][0])
+
+
+
+    # atender_todas_las_mesas(restaurante)
+    # print(restaurante)
+
+
+
+    # for mesa in restaurante['mesas']:
+    #     print(mesa)
+
+
+
+    print("\n\nCobrar mesa. Nuevo")
+    cobrar_mesa(restaurante, 7)     # no existe
+    cobrar_mesa(restaurante, 2)     # no ha pedido
+    cobrar_mesa(restaurante, 1)     # todo nice. Deberíamos poder
     print(restaurante)
 
-    tomar_pedido(restaurante['mesas'][0], restaurante['menu'])
-    print(restaurante['mesas'][0])
-
-    calcular_cuenta(restaurante['mesas'][0], restaurante['menu'])
-    print(restaurante['mesas'][0])
-
-    atender_todas_las_mesas(restaurante)
-    print(restaurante)
-
-    for mesa in restaurante['mesas']:
-        print(mesa)
+    print("\n\nLlega un grupo nuevo después de liberar la mesa 1")
+    añadir_mesa(restaurante, 5)
+    print(restaurante['mesas'])
 
