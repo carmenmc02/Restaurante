@@ -6,8 +6,7 @@ def crear_restaurante(nombre, capacidad, menu, mesas_max = -1):
         'menu' : menu,
         'mesas' : [],
         'ocupacion' : 0,
-        'ganancias' : 0,
-        'siguiente_mesa' : 1
+        'ganancias' : 0
     }
 
     if mesas_max > 0:
@@ -15,13 +14,25 @@ def crear_restaurante(nombre, capacidad, menu, mesas_max = -1):
     return restaurante
 
 
+#### PARA QUE NO TENGAMOS INFINITAS MESAS
+
+def numero_mesa_libre(restaurante):
+    ocupados = []
+    for mesa in restaurante['mesas']:
+        ocupados.append(mesa['num_mesa'])
+
+    numero = 1
+    while numero in ocupados:
+        numero += 1
+    return numero
+
 
 ##ejercicio 2
 def insertar_mesa(restaurante, clientes):
-    nueva_mesa = {'num_mesa' : restaurante['siguiente_mesa'], 'clientes' : clientes, 'atendida' : False}
-    restaurante['mesas'].append(nueva_mesa)
+    numero = numero_mesa_libre(restaurante)
+    nueva_mesa = {'num_mesa' : numero, 'clientes' : clientes, 'atendida' : False}
+    restaurante['mesas'].insert(numero - 1, nueva_mesa)
     restaurante['ocupacion'] += clientes
-    restaurante['siguiente_mesa'] += 1
     print(f"Mesa {nueva_mesa['num_mesa']} asignada a {clientes} clientes.")
 
 def añadir_mesa(restaurante, clientes):
