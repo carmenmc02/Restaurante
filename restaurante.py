@@ -46,6 +46,25 @@ def sentar_grupos(restaurante, grupos):
         añadir_mesa(restaurante, grupo['clientes'])
 
 
+#### MESAS PEDIENTES 
+
+def mesas_pendientes(restaurante):
+    pendientes = []
+    for mesa in restaurante['mesas']:
+        if mesa['atendida'] == False:
+            pendientes.append(mesa)
+    return pendientes
+
+
+#### MESAS ATENTIDAS
+
+def mesas_atendidas(restaurante):
+    atendidas = []
+    for mesa in restaurante['mesas']:
+        if mesa['atendida'] == True:
+            atendidas.append(mesa)
+    return atendidas
+
 
 
 ## ejercicio 3
