@@ -34,7 +34,6 @@ def cargar_restaurante(ruta):
         "mesas": [],
         "ocupacion": 0,
         "ganancias": 0,
-        "siguiente_mesa": 1,
     }
     return restaurante
 
