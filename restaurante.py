@@ -146,6 +146,38 @@ def cobrar_mesa(restaurante, num_mesa):
     return total
 
 
+#### PARA AMPLIAR EL MENÚ
+
+def ampliar_menu(restaurante):
+    nombre = input('Nombre del nuevo plato: ').strip()
+
+    if nombre == '':
+        print('El nombre no puede estar vacío')
+        return False
+
+    if nombre == 'Eso es todo':
+        print('"Eso es todo" no puede ser un plato: es la frase para terminar un pedido')
+        return False
+
+    if nombre in restaurante['menu']:
+        print(f'"{nombre}" ya está en el menú a {restaurante["menu"][nombre]} €. Se actualizará su precio.')
+
+    precio = 0
+    while precio == 0:
+        try:
+            numero = float(input('Precio del nuevo plato: ').replace(',', '.'))
+            if numero > 0:
+                precio = numero
+            else:
+                print('El precio tiene que ser mayor que 0')
+        except ValueError:
+            print('Eso no es un número válido. Ejemplo: 8 o 8.5')
+
+    restaurante['menu'][nombre] = precio
+    print(f'Menú actualizado: {nombre} -> {precio} €')
+    return True
+
+
 
 
 
@@ -207,4 +239,9 @@ if __name__ == "__main__":
     print("\n\nLlega un grupo nuevo después de liberar la mesa 1")
     añadir_mesa(restaurante, 5)
     print(restaurante['mesas'])
+
+    print('\n\nAmpliar menú. Nuevo')
+    ampliar_menu(restaurante)
+    ampliar_menu(restaurante)
+    print(restaurante['menu'])
 
