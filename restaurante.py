@@ -30,10 +30,12 @@ def numero_mesa_libre(restaurante):
 ##ejercicio 2
 def insertar_mesa(restaurante, clientes):
     numero = numero_mesa_libre(restaurante)
+    camarero = elegir_camarero(restaurante)
     nueva_mesa = {'num_mesa' : numero, 'clientes' : clientes, 'atendida' : False}
     restaurante['mesas'].insert(numero - 1, nueva_mesa)
     restaurante['ocupacion'] += clientes
-    print(f"Mesa {nueva_mesa['num_mesa']} asignada a {clientes} clientes.")
+    restaurante['camareros'][camarero]['mesas'] += 1
+    print(f"Mesa {nueva_mesa['num_mesa']} asignada a {clientes} clientes. Camarero: {camarero}.")
 
 def añadir_mesa(restaurante, clientes):
     if restaurante['ocupacion'] + clientes > restaurante['capacidad']:
