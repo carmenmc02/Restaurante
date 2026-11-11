@@ -91,18 +91,18 @@ def mesas_atendidas(restaurante):
 ## ejercicio 3
 def tomar_pedido(mesa, menu):
     pedidos = []
-    for cliente in range(mesa['clientes']):
-        pedido = input('¿Que quiere tomar?: ')
-        num_platos = 0
-        while (pedido != 'Eso es todo' or num_platos == 0):
-            if pedido in menu:
-                pedidos.append(pedido)
-                num_platos += 1
-            elif pedido == 'Eso es todo':
-                print('Tiene que pedir al menos un plato')
-            else:
-                print(f'No tenemos {pedido}')
-            pedido = input('¿Quiere tomar algo mas?: ')
+    while len(pedidos) == 0:
+        for cliente in range(mesa['clientes']):
+            print(f"Cliente {cliente + 1}:")
+            pedido = input('¿Qué quiere tomar?: ')
+            while pedido != 'Eso es todo':
+                if pedido in menu:
+                    pedidos.append(pedido)
+                else:
+                    print(f'No tenemos {pedido}')
+                pedido = input('¿Quiere tomar algo más?: ')
+        if len(pedidos) == 0:
+            print('Al menos uno de ustedes tiene que pedir un plato.')
     mesa['pedidos'] = pedidos
     mesa['atendida'] = True
 
