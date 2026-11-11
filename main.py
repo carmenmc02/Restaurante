@@ -75,9 +75,11 @@ def tomar_un_pedido(restaurante):
         if elegida is None:
             print("Esa mesa no está en la lista.")
         else:
+            print("\n--- Carta ---")
+            for plato in restaurante['menu']:
+                print(f"  {plato}: {restaurante['menu'][plato]} €")
             print("Escribe los platos. Cuando un cliente termine, escribe: Eso es todo")
             tomar_pedido(elegida, restaurante['menu'])
-            print(f"Pedido de la mesa {numero} tomado.")
 
         otra = input("¿Atender otra mesa? (s/n): ").strip().lower()
         while otra != "s" and otra != "n":
