@@ -16,7 +16,7 @@ def cargar_restaurante(ruta):
         return None
     archivo.close()
 
-    if "nombre" not in datos or "capacidad" not in datos or "mesas_max" not in datos or "menu" not in datos or "stock" not in datos or "camareros" not in datos:
+    if "nombre" not in datos or "capacidad" not in datos or "mesas_max" not in datos or "menu" not in datos or "camareros" not in datos:
         print("Al archivo del restaurante le faltan campos")
         return None
 
@@ -29,7 +29,6 @@ def cargar_restaurante(ruta):
         "capacidad": datos["capacidad"],
         "mesas_max": datos["mesas_max"],
         "menu": datos["menu"],
-        "stock": datos["stock"],
         "camareros": camareros,
         "mesas": [],
         "ocupacion": 0,
