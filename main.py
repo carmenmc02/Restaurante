@@ -1,6 +1,6 @@
 import os
 from gestor_json import listar_archivos, cargar_restaurante, guardar_menu, cargar_grupos
-from restaurante import añadir_mesa, tomar_pedido
+from restaurante import añadir_mesa, tomar_pedido, ampliar_menu, mesas_atendidas, cobrar_mesa
 
 def mostrar_menu():
     print("\n===== GESTOR DEL RESTAURANTE =====")
@@ -84,6 +84,43 @@ def tomar_un_pedido(restaurante):
             otra = input("Responde s o n: ").strip().lower()
         if otra == "n":
             return
+
+def cobrar_una_mesa(restaurante):
+    atendidas = mesas_atendidas(restaurante)
+    if len(atendidas) == 0:
+        print("No hay mesas para cobrar.")
+        return
+
+    print("Mesas listas para cobrar:")
+    for mesa in atendidas:
+        print(f"  Mesa {mesa['num_mesa']} (camarero: {mesa['camarero']})")
+
+    numero = pedir_numero("¿Qué mesa quieres cobrar? ")
+
+    propina = -1
+    while propina < 0:
+        try:
+            propina = float(input("Propina (0 si no hay): ").replace(',', '.'))
+            if propina < 0:
+                print("No puede ser negativa.")
+        except ValueError:
+            print("Eso no es un número.")
+            propina = -1
+
+    cobrar_mesa(restaurante, numero, propina)
+
+def mostrar_resumen_noche(restaurante):
+    print("\n===== RESUMEN DE LA NOCHE =====")
+    print(f"Ganancias del restaurante: {restaurante['ganancias']} €")
+
+    total_propinas = 0
+    print("Propinas por camarero:")
+    for nombre in restaurante['camareros']:
+        propinas = restaurante['camareros'][nombre]['propinas']
+        print(f"  {nombre}: {propinas} €")
+        total_propinas += propinas
+    print(f"Total de propinas: {total_propinas} €")
+
 
 def main():
     restaurante = None
