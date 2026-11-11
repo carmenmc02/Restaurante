@@ -7,10 +7,5 @@
     "Calamares": 3,
     "Cocido": 20
   },
-  "stock": {
-    "Callos": 40,
-    "Calamares": 27,
-    "Cocido": 36
-  },
   "camareros": ["Igor", "Pepe", "Adrian"]
 }
