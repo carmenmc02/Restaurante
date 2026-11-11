@@ -185,6 +185,11 @@ def mostrar_estado(restaurante):
             print(f"  Mesa {mesa['num_mesa']} ({mesa['camarero']}): {mesa['clientes']} clientes, pedido tomado: {platos}")
         else:
             print(f"  Mesa {mesa['num_mesa']} ({mesa['camarero']}): {mesa['clientes']} clientes, esperando pedido")
+            
+    print("\n--- Camareros ---")
+    for nombre in restaurante['camareros']:
+        c = restaurante['camareros'][nombre]
+        print(f"  {nombre}: {c['mesas']} mesas, {c['propinas']} € de propinas")
 
 if __name__ == "__main__":
     main()
