@@ -143,6 +143,7 @@ def main():
             if restaurante is not None:
                 guardar_menu(ruta_restaurante, restaurante)
                 print("Menú guardado.")
+                mostrar_resumen_noche(restaurante)
             print("¡Hasta luego!")
             break
 
@@ -151,10 +152,16 @@ def main():
                 print("Primero tienes que cargar un restaurante (opción 1).")
             elif opcion == "2":
                 cargar_nuevos_grupos(restaurante)
+            elif opcion == "3":
+                tomar_un_pedido(restaurante)
+            elif opcion == "4":
+                cobrar_una_mesa(restaurante)
+            elif opcion == "5":
+                if ampliar_menu(restaurante):
+                    guardar_menu(ruta_restaurante, restaurante)
+                    print("Menú guardado.")
             elif opcion == "6":
                 mostrar_estado(restaurante)
-            else:
-                print("Pendiente.")
 
         else:
             print("Opción no válida.")
@@ -175,9 +182,9 @@ def mostrar_estado(restaurante):
     for mesa in restaurante['mesas']:
         if mesa['atendida']:
             platos = ", ".join(mesa['pedidos'])
-            print(f"  Mesa {mesa['num_mesa']}: {mesa['clientes']} clientes, pedido tomado: {platos}")
+            print(f"  Mesa {mesa['num_mesa']} ({mesa['camarero']}): {mesa['clientes']} clientes, pedido tomado: {platos}")
         else:
-            print(f"  Mesa {mesa['num_mesa']}: {mesa['clientes']} clientes, esperando pedido")
+            print(f"  Mesa {mesa['num_mesa']} ({mesa['camarero']}): {mesa['clientes']} clientes, esperando pedido")
 
 if __name__ == "__main__":
     main()
