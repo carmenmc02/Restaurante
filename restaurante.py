@@ -178,6 +178,16 @@ def ampliar_menu(restaurante):
     return True
 
 
+#### FEATURES CALLE 365
+
+# Vamos a delegar tareas según QUÉ tan ocupado esté cada camarero
+
+def elegir_camarero(restaurante):
+    elegido = None
+    for nombre in restaurante['camareros']:
+        if elegido is None or restaurante['camareros'][nombre]['mesas'] < restaurante['camareros'][elegido]['mesas']:
+            elegido = nombre
+    return elegido
 
 
 
