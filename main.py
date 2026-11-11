@@ -1,6 +1,6 @@
 import os
 from gestor_json import listar_archivos, cargar_restaurante, guardar_menu, cargar_grupos
-from restaurante import añadir_mesa, tomar_pedido, ampliar_menu, mesas_atendidas, cobrar_mesa
+from restaurante import añadir_mesa, tomar_pedido, ampliar_menu, mesas_atendidas, cobrar_mesa, liberar_mesa
 
 def mostrar_menu():
     print("\n===== GESTOR DEL RESTAURANTE =====")
@@ -79,7 +79,10 @@ def tomar_un_pedido(restaurante):
             for plato in restaurante['menu']:
                 print(f"  {plato}: {restaurante['menu'][plato]} €")
             print("Escribe los platos. Cuando un cliente termine, escribe: Eso es todo")
-            tomar_pedido(elegida, restaurante['menu'])
+            pidieron = tomar_pedido(elegida, restaurante['menu'])
+            if not pidieron:
+                liberar_mesa(restaurante, elegida)
+                print(f"La mesa {numero} se ha retirado sin pedir. La mesa queda libre.")
 
         otra = input("¿Atender otra mesa? (s/n): ").strip().lower()
         while otra != "s" and otra != "n":

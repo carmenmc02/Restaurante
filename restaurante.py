@@ -1,4 +1,4 @@
-## ejercicio 1
+
 def crear_restaurante(nombre, capacidad, menu, mesas_max = -1, camareros = None):
     if camareros is None: 
         camareros = ['Pepe', 'Isaac']
@@ -22,8 +22,6 @@ def crear_restaurante(nombre, capacidad, menu, mesas_max = -1, camareros = None)
     return restaurante
 
 
-#### PARA QUE NO TENGAMOS INFINITAS MESAS
-
 def numero_mesa_libre(restaurante):
     ocupados = []
     for mesa in restaurante['mesas']:
@@ -34,8 +32,6 @@ def numero_mesa_libre(restaurante):
         numero += 1
     return numero
 
-
-##ejercicio 2
 def insertar_mesa(restaurante, clientes):
     numero = numero_mesa_libre(restaurante)
     camarero = elegir_camarero(restaurante)
@@ -67,7 +63,7 @@ def sentar_grupos(restaurante, grupos):
         añadir_mesa(restaurante, grupo['clientes'])
 
 
-#### MESAS PEDIENTES 
+#### MESAS PENDIENTES 
 
 def mesas_pendientes(restaurante):
     pendientes = []
@@ -77,7 +73,7 @@ def mesas_pendientes(restaurante):
     return pendientes
 
 
-#### MESAS ATENTIDAS
+#### MESAS ATENDIDAS
 
 def mesas_atendidas(restaurante):
     atendidas = []
@@ -86,9 +82,6 @@ def mesas_atendidas(restaurante):
             atendidas.append(mesa)
     return atendidas
 
-
-
-## ejercicio 3
 def tomar_pedido(mesa, menu):
     pedidos = []
     while len(pedidos) == 0:
@@ -103,12 +96,20 @@ def tomar_pedido(mesa, menu):
                 pedido = input('¿Quiere tomar algo más?: ')
         if len(pedidos) == 0:
             print('Al menos uno de ustedes tiene que pedir un plato.')
+            respuesta = input('¿Quieren intentarlo otra vez? (s/n): ').strip().lower()
+            while respuesta != 's' and respuesta != 'n':
+                respuesta = input('Responde s o n: ').strip().lower()
+            if respuesta == 'n':
+                return False
     mesa['pedidos'] = pedidos
     mesa['atendida'] = True
+    return True
 
+def liberar_mesa(restaurante, mesa):
+    restaurante['ocupacion'] -= mesa['clientes']
+    restaurante['camareros'][mesa['camarero']]['mesas'] -= 1
+    restaurante['mesas'].remove(mesa)
 
-
-## ejercicio 4
 def calcular_cuenta(mesa, menu):
     total = 0
     for pedido in mesa['pedidos']:
@@ -117,15 +118,6 @@ def calcular_cuenta(mesa, menu):
     mesa['cuenta'] = total
     return total
 
-
-## ejercicio 5
-def atender_todas_las_mesas(restaurante):
-    for mesa in restaurante['mesas']:
-        if mesa['atendida'] == False:
-            tomar_pedido(mesa, restaurante['menu'])
-            calcular_cuenta(mesa, restaurante['menu'])
-
-
 #### COBRAR Y LIBERAR LAS MESAS
 
 def buscar_mesa(restaurante, num_mesa):
@@ -133,8 +125,6 @@ def buscar_mesa(restaurante, num_mesa):
         if mesa['num_mesa'] == num_mesa:
             return mesa
     return None
-
-
 
 def cobrar_mesa(restaurante, num_mesa, propina = 0):
     mesa = buscar_mesa(restaurante, num_mesa)
@@ -204,71 +194,3 @@ def elegir_camarero(restaurante):
         if elegido is None or restaurante['camareros'][nombre]['mesas'] < restaurante['camareros'][elegido]['mesas']:
             elegido = nombre
     return elegido
-
-
-
-
-if __name__ == "__main__":
-    restaurante = crear_restaurante("Casa Pepe", 50, {'Sopa' : 3, 'Macarrones' : 6, 'Ensalada' : 4}, 2)
-
-
-
-    print(f"\n\nSentar grupos. Nuevo")
-    grupos = [{"clientes": 4}, {"clientes": 3}, {"clientes": 2}]
-    sentar_grupos(restaurante, grupos)
-    print(restaurante)
-
-
-
-
-    print("\n\nMesas pendientes y atendidas. Nuevo")
-    restaurante['mesas'][0]['pedidos'] = ['Sopa', 'Macarrones']
-    restaurante['mesas'][0]['atendida'] = True
-    print("Pendientes:", mesas_pendientes(restaurante))
-    print("Atendidas:", mesas_atendidas(restaurante))
-
-
-
-
-    # añadir_mesa(restaurante, 3)
-    # añadir_mesa(restaurante, 4)
-    # print(restaurante)
-
-
-
-    # tomar_pedido(restaurante['mesas'][0], restaurante['menu'])
-    # print(restaurante['mesas'][0])
-
-
-
-    # calcular_cuenta(restaurante['mesas'][0], restaurante['menu'])
-    # print(restaurante['mesas'][0])
-
-
-
-    # atender_todas_las_mesas(restaurante)
-    # print(restaurante)
-
-
-
-    # for mesa in restaurante['mesas']:
-    #     print(mesa)
-
-
-
-    print("\n\nCobrar mesa. Nuevo")
-    cobrar_mesa(restaurante, 7)     # no existe
-    cobrar_mesa(restaurante, 2)     # no ha pedido
-    cobrar_mesa(restaurante, 1,2)     # todo nice. Deberíamos poder
-    print(restaurante)
-    print("Camareros:", restaurante['camareros'])
-
-    print("\n\nLlega un grupo nuevo después de liberar la mesa 1")
-    añadir_mesa(restaurante, 5)
-    print(restaurante['mesas'])
-
-    print('\n\nAmpliar menú. Nuevo')
-    ampliar_menu(restaurante)
-    ampliar_menu(restaurante)
-    print(restaurante['menu'])
-
