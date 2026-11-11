@@ -59,7 +59,6 @@ def guardar_menu(ruta, restaurante):
         "capacidad": restaurante["capacidad"],
         "mesas_max": restaurante["mesas_max"],
         "menu": restaurante["menu"],
-        "stock": restaurante["stock"],
         "camareros": list(restaurante["camareros"]),
     }
     archivo = open(ruta, "w", encoding="utf-8")
