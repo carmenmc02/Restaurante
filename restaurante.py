@@ -1,13 +1,21 @@
 ## ejercicio 1
-def crear_restaurante(nombre, capacidad, menu, mesas_max = -1):
+def crear_restaurante(nombre, capacidad, menu, mesas_max = -1, camareros = None):
+    if camareros is None: 
+        camareros = ['Pepe', 'Isaac']
+    
     restaurante = {
         'nombre' : nombre,
         'capacidad' : capacidad,
         'menu' : menu,
         'mesas' : [],
         'ocupacion' : 0,
-        'ganancias' : 0
+        'ganancias' : 0,
+        'camareros' : {}
     }
+
+
+    for camarero in camareros:
+        restaurante['camareros'][camarero] = {'mesas' : 0, 'propinas' : 0} 
 
     if mesas_max > 0:
         restaurante['mesas_max'] = mesas_max
@@ -31,7 +39,7 @@ def numero_mesa_libre(restaurante):
 def insertar_mesa(restaurante, clientes):
     numero = numero_mesa_libre(restaurante)
     camarero = elegir_camarero(restaurante)
-    nueva_mesa = {'num_mesa' : numero, 'clientes' : clientes, 'atendida' : False}
+    nueva_mesa = {'num_mesa' : numero, 'clientes' : clientes, 'atendida' : False, 'camarero': camarero}
     restaurante['mesas'].insert(numero - 1, nueva_mesa)
     restaurante['ocupacion'] += clientes
     restaurante['camareros'][camarero]['mesas'] += 1
@@ -128,7 +136,7 @@ def buscar_mesa(restaurante, num_mesa):
 
 
 
-def cobrar_mesa(restaurante, num_mesa):
+def cobrar_mesa(restaurante, num_mesa, propina = 0):
     mesa = buscar_mesa(restaurante, num_mesa)
 
     if mesa is None:
@@ -139,9 +147,15 @@ def cobrar_mesa(restaurante, num_mesa):
         print(f'La mesa {num_mesa} todavía no ha pedido, no se puede cobrar')
         return None
 
+
     total = calcular_cuenta(mesa, restaurante['menu'])
     restaurante['ganancias'] += total
     restaurante['ocupacion'] -= mesa['clientes']
+    
+    camarero = mesa['camarero']
+    restaurante['camareros'][camarero]['propinas'] += propina
+    restaurante['camareros'][camarero]['mesas'] -= 1
+    
     restaurante['mesas'].remove(mesa)
 
     print(f'Mesa {num_mesa} cobrada: {total} €. Ganancias de la noche: {restaurante["ganancias"]} €')
@@ -245,8 +259,9 @@ if __name__ == "__main__":
     print("\n\nCobrar mesa. Nuevo")
     cobrar_mesa(restaurante, 7)     # no existe
     cobrar_mesa(restaurante, 2)     # no ha pedido
-    cobrar_mesa(restaurante, 1)     # todo nice. Deberíamos poder
+    cobrar_mesa(restaurante, 1,2)     # todo nice. Deberíamos poder
     print(restaurante)
+    print("Camareros:", restaurante['camareros'])
 
     print("\n\nLlega un grupo nuevo después de liberar la mesa 1")
     añadir_mesa(restaurante, 5)
